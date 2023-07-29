@@ -31,6 +31,21 @@
     </div>
 </li>
 <hr class="sidebar-divider d-none d-md-block">
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse9"
+        aria-expanded="true" aria-controls="collapse9">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Role</span>
+    </a>
+    <div id="collapse9" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Action:</h6>
+            <a class="collapse-item" href="{{route('roles.create')}}"><i class="fas fa-fw fa-plus"></i> New Role</a>
+            <a class="collapse-item" href="{{route('roles.index')}}"><i class="fas fa-fw fa-list"></i> List Roles</a>
+        </div>
+    </div>
+</li>
+<hr class="sidebar-divider d-none d-md-block">
   <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1"
           aria-expanded="true" aria-controls="collapse1">
@@ -57,6 +72,7 @@
             <h6 class="collapse-header">Action:</h6>
             <a class="collapse-item" href="{{route('products.create')}}"><i class="fas fa-fw fa-plus"></i> New Product</a>
             <a class="collapse-item" href="{{route('products.index')}}"><i class="fas fa-fw fa-list"></i> List Products</a>
+            <a class="collapse-item" href="{{route('products.deleted')}}"><i class="fas fa-recycle"></i> Products Deleted</a>
         </div>
     </div>
 </li>
@@ -68,26 +84,25 @@
         <i class="fas fa-fw fa-wallet"></i>
         <span>Bills</span>
     </a>
-    {{-- <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+    <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Action:</h6>
-            <a class="collapse-item" href="buttons.html"><i class="fas fa-fw fa-plus"></i> New Bill</a>
-            <a class="collapse-item" href="cards.html"><i class="fas fa-fw fa-list"></i> List Bills</a>
+            <a class="collapse-item" href="{{route('admin.orders.index')}}"><i class="fas fa-fw fa-list"></i> List Bills</a>
         </div>
-    </div> --}}
+    </div>
 </li>
 <hr class="sidebar-divider d-none d-md-block">
 <li class="nav-item">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5"
       aria-expanded="true" aria-controls="collapse5">
       <i class="fas fa-fw fa-percent"></i>
-      <span>Discount</span>
+      <span>Coupon</span>
   </a>
   <div id="collapse5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Action:</h6>
-          <a class="collapse-item" href="buttons.html"><i class="fas fa-fw fa-plus"></i> New Couple</a>
-          <a class="collapse-item" href="cards.html"><i class="fas fa-fw fa-list"></i> List Couple</a>
+          <a class="collapse-item" href="{{route('coupons.create')}}"><i class="fas fa-fw fa-plus"></i> New Coupon</a>
+          <a class="collapse-item" href="{{route('coupons.index')}}"><i class="fas fa-fw fa-list"></i> List Coupon</a>
       </div>
   </div>
 </li>

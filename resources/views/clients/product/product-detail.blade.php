@@ -22,7 +22,7 @@
 </div>
 
 @if (session('message'))
-  <h2 class="" style="text-align: center; width:100%; color:red"> {{ session('message') }}</h2>
+  <h2 class="text-success" style="text-align: center; width:100%;"> {{ session('message') }}</h2>
 @endif
 
 <!-- Product Detail -->
@@ -58,7 +58,7 @@
 
           <div class="col-md-6 col-lg-5 p-b-30">
               <div class="p-r-50 p-t-5 p-lr-0-lg">
-                  <form action="" method="POST">
+                  <form action="{{ route('client.carts.add') }}" method="POST">
                       @csrf
                       <input type="hidden" name="product_id" value="{{ $product->id }}">
                       <h4 class="mtext-105 cl2 js-name-detail p-b-14">
@@ -105,6 +105,7 @@
 
                                       <input class="mtext-104 cl3 txt-center num-product" type="number"
                                           name="product_quantity" value="1">
+                                         
 
                                       <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                           <i class="fs-16 zmdi zmdi-plus"></i>
@@ -173,7 +174,7 @@
                           <p class="stext-102 cl6">
                               Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit
                               amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus
-interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et
+                              interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et
                               elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu
                               velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec
                               iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat,

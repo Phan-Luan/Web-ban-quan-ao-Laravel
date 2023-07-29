@@ -12,3 +12,5 @@
 <script src="{{asset('assets/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 <script src="{{asset('assets/js/sb-admin-2.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{asset('assets/js/base.js')}}"></script>

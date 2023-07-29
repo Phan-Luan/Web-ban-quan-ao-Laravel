@@ -92,12 +92,6 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   let sizes=@json($product->details)
 </script>
-<script>
-let sizes = [{
-    id: Date.now(),
-    size: '',
-    quantity: 0
-}];
-</script>
+
 <script src="{{ asset('assets/product/product.js') }}"></script>
 @endsection
