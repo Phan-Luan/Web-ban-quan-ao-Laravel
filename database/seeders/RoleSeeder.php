@@ -23,11 +23,11 @@ class RoleSeeder extends Seeder
         foreach ($roles as $role) {
             Role::updateOrCreate($role);
         }
-        // $superAdmin = User::whereEmail('admin@gmail.com')->first();
-        // if (!$superAdmin) {
-        //     $superAdmin = User::factory()->create(['email' => 'admin@gmail.com']);
-        // }
-        // $superAdmin->assignRole('super-admin');
+        $superAdmin = User::whereEmail('admin@gmail.com')->first();
+        if (!$superAdmin) {
+            $superAdmin = User::factory()->create(['email' => 'admin@gmail.com']);
+        }
+        $superAdmin->assignRole('super-admin');
 
 
         $permissions = [

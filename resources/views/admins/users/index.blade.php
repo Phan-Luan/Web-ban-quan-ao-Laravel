@@ -85,9 +85,13 @@
                                                     <form action="{{ route('users.destroy', $item->id) }}" method="post">
                                                         @csrf
                                                         @method('delete')
+                                                        @can('delete-user')
                                                         <button class="btn btn-danger">Delete</button>
+                                                        @endcan
+                                                        @can('delete-user')
                                                         <a href="{{ route('users.edit', $item->id) }}"
                                                             class="btn btn-info btn-fw">Update</a>
+                                                        @endcan
                                                     </form>
                                                 </div>
                                              

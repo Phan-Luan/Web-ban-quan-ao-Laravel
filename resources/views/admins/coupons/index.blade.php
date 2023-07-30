@@ -51,9 +51,13 @@
                                               method="post">
                                               @csrf
                                               @method('delete')
-                                              <button class="btn btn-danger" type="submit" onclick="return confirmDelete()">Delete</button>
+                                             @can('delete-coupon')
+                                             <button class="btn btn-danger" type="submit" onclick="return confirmDelete()">Delete</button>
+                                             @endcan
+                                              @can('update-coupon')
                                               <a href="{{ route('coupons.edit', $item->id) }}"
-                                                  class="btn btn-primary">Edit</a>
+                                                class="btn btn-primary">Edit</a>
+                                              @endcan
                                           </form>
                                   </div>
                               </td>

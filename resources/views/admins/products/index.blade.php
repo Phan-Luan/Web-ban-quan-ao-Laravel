@@ -46,8 +46,12 @@
           <form action="{{route('products.destroy',$item)}}" method="post">
             @csrf
             @method('DELETE')
-            <button class="btn btn-danger" onclick="return confirm('Bạn muốn xoá danh mục này?')">Delete</button>
-            <a href="{{route('products.edit',$item)}}" class="btn btn-primary">Update</a>
+           @can('delete-product')
+           <button class="btn btn-danger" onclick="return confirm('Bạn muốn xoá danh mục này?')">Delete</button>
+           @endcan
+           @can('update-product')
+           <a href="{{route('products.edit',$item)}}" class="btn btn-primary">Update</a>
+           @endcan
           </form>
         </td>
       </tr>

@@ -23,7 +23,7 @@
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
-                    <a href="" class="nav-item nav-link">Register</a>
+                    <a href="{{route('register')}}" class="nav-item nav-link">Register</a>
                 @endif
             </div>
 

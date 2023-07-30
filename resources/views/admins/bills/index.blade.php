@@ -47,7 +47,7 @@
                               <td>${{ $item->total }}</td>
                               <td>
                                 <select name="status" class="form-control status form-control-sm"
-                                    data-action="{{ route('admin.orders.update_status', $item->id) }}">
+                                    data-action="{{ route('admins.orders.update_status', $item->id) }}">
                                     @foreach (config('order.status') as $status)
                                         <option value="{{ $status }}"
                                             {{ $status == $item->status ? 'selected' : '' }}>{{ $status }}

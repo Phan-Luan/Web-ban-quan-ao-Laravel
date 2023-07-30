@@ -45,7 +45,9 @@
         <td style="width: 200px">
           <form action="{{route('product.delete',$item)}}" method="get">
             @csrf
+            @can('delete-product')
             <button class="btn btn-danger" onclick="return confirm('Bạn muốn xoá cứng?')">Delete</button>
+            @endcan
             <a href="{{route('products.restore',$item)}}" class="btn btn-primary">Restore</a>
           </form>
         </td>

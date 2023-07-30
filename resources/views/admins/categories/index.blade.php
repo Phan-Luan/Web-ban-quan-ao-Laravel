@@ -36,8 +36,12 @@
           <form action="{{route('categories.destroy',$item)}}" method="post">
             @csrf
             @method('DELETE')
+            @can('delete-category')
             <button class="btn btn-danger" onclick="return confirm('Bạn muốn xoá danh mục này?')">Delete</button>
+            @endcan
+            @can('update-category')
             <a href="{{route('categories.edit',$item)}}" class="btn btn-primary">Update</a>
+            @endcan
           </form>
         </td>
       </tr>
