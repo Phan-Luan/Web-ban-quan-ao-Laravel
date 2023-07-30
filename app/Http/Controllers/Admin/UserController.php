@@ -3,65 +3,71 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\StoreUserRequest;
-use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $users=User::all();
-    }
+    protected $user;
+    protected $role;
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function __construct(User $user, Role $role)
+    {
+        $this->user = $user;
+        $this->role = $role;
+    }
+    public function index(Request $request)
+    {
+        $search = $request->get(key: 'q');
+        $users = $this->user->latest('id')->where(column: 'name', operator: 'like', value: '%' . $search . '%')->paginate(3);
+        return view('admins.users.index', compact('users', 'search'));
+    }
     public function create()
     {
-        //
+        $roles = $this->role->all()->groupBy('group');
+        return view('admins.users.create', compact('roles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(Request $request)
     {
-        //
+        $dataCreate = $request->all();
+        $dataCreate['password'] = Hash::make($request->password);
+        $user = $this->user->create($dataCreate);
+        $user->roles()->attach($dataCreate['role_ids']);
+        return to_route('users.index')->with(['success' => 'create user success']);
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
+    public function edit(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
+        $user = $this->user->findOrFail($id)->load('roles');
+        $roles = $this->role->all()->groupBy('group');
+        return view('admins.users.edit', compact('user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(Request $request, string $id)
     {
-        //
-    }
+        $dataUpdate = $request->except('password');
+        $user = $this->user->findOrFail($id)->load('roles');
+        if ($request->password) {
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
+            $dataUpdate['password'] = Hash::make($request->password);
+        }
+        $user->update($dataUpdate);
+        $user->roles()->sync($dataUpdate['role_ids'] ?? []);
+        return to_route('users.index')->with(['message' => 'update success']);
+    }
+    public function destroy(string $id)
     {
-        //
+        $user = $this->user->findOrFail($id)->load('roles');
+        $user->delete();
+        return to_route('users.index')->with(['message' => 'delete success']);
+
     }
 }

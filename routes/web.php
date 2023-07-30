@@ -7,6 +7,7 @@ use App\Http\Controllers\Client\ProductController as ClientProductController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CartController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -34,8 +35,9 @@ Route::prefix('/admin')->group(function () {
     Route::resource('/coupons', CouponController::class);
     Route::get('orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     Route::post('update-status/{id}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.update_status');
-    Route::get('bill-detail/{id}',[AdminOrderController::class,'bill_detail'])->name('bill.detail');
+    Route::get('bill-detail/{id}', [AdminOrderController::class, 'bill_detail'])->name('bill.detail');
     Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
 });
 Route::prefix('/')->group(function () {
     Route::get('/',  [HomeController::class, 'index'])->name('home');
@@ -54,4 +56,3 @@ Route::middleware('auth')->group(function () {
     Route::post('process-checkout', [CartController::class, 'processCheckout'])->name('client.checkout.proccess');
 });
 Auth::routes();
-

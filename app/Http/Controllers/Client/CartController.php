@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Order\CreateOrderRequest;
-use App\Http\Requests\ProductDetailt\ProductDetailtRequest;
 use App\Http\Resources\Cart\CartResource;
 use App\Models\Bill;
 use Illuminate\Http\Request;
@@ -15,6 +13,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -184,7 +183,6 @@ class CartController extends Controller
             Session::put('discount_amount_price', $coupon->value);
             Session::put('coupon_code', $coupon->name);
         } else {
-
             Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
             $message = 'Mã giảm giá không tồn tại hoặc hết hạn!';
         }
@@ -223,6 +221,9 @@ class CartController extends Controller
 
         $cartProducts->each->delete();
         Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
+        Artisan::call('test:send-mail-order', [
+            'userId' => $order->user_id,
+        ]);
         return to_route('home');
     }
 }

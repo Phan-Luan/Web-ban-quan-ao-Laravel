@@ -16,10 +16,10 @@
         rel="stylesheet">
         <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
     <link href="{{asset('assets/css/sb-admin-2.css')}}" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
+    @include('flash::message')
     <div id="wrapper">
         @include('admins.blocks.sidebar')
 

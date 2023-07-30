@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\MailOrder;
+use App\Models\Bill;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -15,11 +16,12 @@ class SendMailOrder extends Command
      *
      * @var string
      */
-    protected $signature = 'test:send-mail {userId?}';
-
-    public function __construct()
+    protected $signature = 'test:send-mail-order {userId?}';
+    protected $bill;
+    public function __construct(Bill $bill)
     {
         parent::__construct();
+        $this->bill = $bill;
     }
     /**
      * The console command description.
@@ -35,7 +37,9 @@ class SendMailOrder extends Command
     {
         $user = User::find($this->argument('userId'));
         $order = Order::latest('id')->where('user_id', $user->id)->first();
-        $user['order'] = $order; //tim user co id la tham so truyen vao
-        Mail::to($user)->send(new MailOrder($user)); //gui mail cho user do bang class Email
+        $user['order'] = $order;
+        $bills = $this->bill->with(['order', 'product'])->where('order_id', $user->order->id)->get();
+        $user['bills'] = $bills;
+        Mail::to($user)->send(new MailOrder($user));
     }
 }
