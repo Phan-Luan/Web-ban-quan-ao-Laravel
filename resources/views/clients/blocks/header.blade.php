@@ -6,9 +6,11 @@
            
         </div>
         <div class="right-top-bar flex-w h-full">
-            <a href="#" class="flex-c-m trans-04 p-lr-25">
+          @if (auth()->check())
+            <a href="{{route('client.profile',auth()->user()->id)}}" class="flex-c-m trans-04 p-lr-25">
                 My Account
             </a>
+            @endif
             <div class="flex-c-m  ">
                 @if (auth()->check())
                

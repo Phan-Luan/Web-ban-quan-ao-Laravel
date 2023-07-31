@@ -70,4 +70,5 @@ class UserController extends Controller
         return to_route('users.index')->with(['message' => 'delete success']);
 
     }
+   
 }

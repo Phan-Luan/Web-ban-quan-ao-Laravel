@@ -55,7 +55,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td><a href="{{route('bill.detail',$item->id)}}">!</a></td>
+                            <td><a href="{{route('bill.detail',$item->id)}}"><i class="fa fa-exclamation-circle"></i></a></td>
                           </tr>
                     @endforeach
                   </tbody>

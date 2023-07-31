@@ -1,6 +1,6 @@
 @extends('layouts.client')
 @section('content')
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <div class="container">
   <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
 
@@ -70,7 +70,7 @@
                       </span>
 
                       <p class="stext-102 cl3 p-t-23">
-                          {!! html_entity_decode($product->description) !!}
+                          {{$product->description}}
                       </p>
 
                       <!--  -->
@@ -152,24 +152,19 @@
           <div class="tab01">
               <!-- Nav tabs -->
               <ul class="nav nav-tabs" role="tablist">
+                  
                   <li class="nav-item p-b-10">
-                      <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
+                      <a class="nav-link" data-toggle="tab" href="#description" role="tab">Description</a>
                   </li>
-
                   <li class="nav-item p-b-10">
-                      <a class="nav-link" data-toggle="tab" href="#information" role="tab">Additional
-                          information</a>
-                  </li>
-
-                  <li class="nav-item p-b-10">
-                      <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews (1)</a>
+                      <a class="nav-link active" data-toggle="tab" href="#reviews" role="tab">Reviews (1)</a>
                   </li>
               </ul>
 
               <!-- Tab panes -->
               <div class="tab-content p-t-43">
                   <!-- - -->
-                  <div class="tab-pane fade show active" id="description" role="tabpanel">
+                  <div class="tab-pane fade show" id="description" role="tabpanel">
                       <div class="how-pos2 p-lr-15-md">
                           <p class="stext-102 cl6">
                               Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit
@@ -185,145 +180,87 @@
                   </div>
 
                   <!-- - -->
-                  <div class="tab-pane fade" id="information" role="tabpanel">
-                      <div class="row">
-                          <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-                              <ul class="p-lr-28 p-lr-15-sm">
-                                  <li class="flex-w flex-t p-b-7">
-                                      <span class="stext-102 cl3 size-205">
-                                          Weight
-                                      </span>
-
-                                      <span class="stext-102 cl6 size-206">
-                                          0.79 kg
-                                      </span>
-                                  </li>
-
-                                  <li class="flex-w flex-t p-b-7">
-                                      <span class="stext-102 cl3 size-205">
-                                          Dimensions
-                                      </span>
-
-                                      <span class="stext-102 cl6 size-206">
-                                          110 x 33 x 100 cm
-                                      </span>
-                                  </li>
-
-                                  <li class="flex-w flex-t p-b-7">
-                                      <span class="stext-102 cl3 size-205">
-                                          Materials
-                                      </span>
-
-                                      <span class="stext-102 cl6 size-206">
-                                          60% cotton
-                                      </span>
-                                  </li>
-
-                                  <li class="flex-w flex-t p-b-7">
-                                      <span class="stext-102 cl3 size-205">
-                                          Color
-                                      </span>
-
-                                      <span class="stext-102 cl6 size-206">
-Black, Blue, Grey, Green, Red, White
-                                      </span>
-                                  </li>
-
-                                  <li class="flex-w flex-t p-b-7">
-                                      <span class="stext-102 cl3 size-205">
-                                          Size
-                                      </span>
-
-                                      <span class="stext-102 cl6 size-206">
-                                          XL, L, M, S
-                                      </span>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-
-                  <!-- - -->
-                  <div class="tab-pane fade" id="reviews" role="tabpanel">
+                  <div class="tab-pane fade show active" id="reviews" role="tabpanel">
                       <div class="row">
                           <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
                               <div class="p-b-30 m-lr-15-sm">
                                   <!-- Review -->
-                                  <div class="flex-w flex-t p-b-68">
-                                      <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-                                          <img src="{{ asset('client/images/avatar-01.jpg') }}" alt="AVATAR">
-                                      </div>
+                                    <div class="flex-w flex-t p-b-68">
+                                        <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                            <img src="{{ asset('client/images/avatar-01.jpg') }}" alt="AVATAR">
+                                        </div>
 
-                                      <div class="size-207">
-                                          <div class="flex-w flex-sb-m p-b-17">
-                                              <span class="mtext-107 cl2 p-r-20">
-                                                  Ariana Grande
-                                              </span>
+                                        <div class="size-207">
+                                            <div class="flex-w flex-sb-m p-b-17">
+                                                <span class="mtext-107 cl2 p-r-20">Ariana Grande</span>
+                                            </div>
 
-                                              <span class="fs-18 cl11">
-                                                  <i class="zmdi zmdi-star"></i>
-                                                  <i class="zmdi zmdi-star"></i>
-                                                  <i class="zmdi zmdi-star"></i>
-                                                  <i class="zmdi zmdi-star"></i>
-                                                  <i class="zmdi zmdi-star-half"></i>
-                                              </span>
-                                          </div>
-
-                                          <p class="stext-102 cl6">
-                                              Quod autem in homine praestantissimum atque optimum est, id deseruit.
-                                              Apud ceteros autem philosophos
-                                          </p>
-                                      </div>
-                                  </div>
+                                            <p class="stext-102 cl6">
+                                                Quod autem in homine praestantissimum atque optimum est, id deseruit.
+                                                Apud ceteros autem philosophos
+                                            </p>
+                                            @if (auth()->check())
+                                            <p>
+                                                <a href="#" class="btn btn-sm btn-primary">Reply</a>
+                                            </p>
+                                            @endif
+                                                
+                                            <!-- Bình luận con-->
+                                            <div class="">
+                                                <div class="my-2">
+                                                    <div class="flex-w flex-sb-m p-b-17">
+                                                        <span class="mtext-107 cl2 p-r-20">
+                                                            Ariana Grande
+                                                        </span>
+                                                    </div>
+            
+                                                    <p class="stext-102 cl6">
+                                                        Quod autem in homine praestantissimum atque optimum est, id deseruit.
+                                                        Apud ceteros autem philosophos
+                                                    </p>
+                                                    @if (auth()->check())
+                                                        <p>
+                                                            <a href="#" class="btn btn-sm btn-primary">Reply</a>
+                                                        </p>
+                                                    @endif
+                                                </div>
+                                                <form style="display:none" action="" method="POST" class="w-full">
+                                                        <input type="hidden" name="product_id" value="{{$product->id}}">
+                
+                                                    <div class="row p-b-25">
+                                                        <div class="col-12 p-b-5">
+                                                            <label class="stext-102 cl3" for="comment">Your comment</label>
+                                                            <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="content" name="content"></textarea>
+                                                        </div>
+                                                    </div>
+                                                        <button
+                                                        class="btn btn-sm btn-primary">
+                                                        Submit
+                                                        </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                   <!-- Add review -->
-<form class="w-full">
-                                      <h5 class="mtext-108 cl2 p-b-7">
-                                          Add a review
-                                      </h5>
+                                   @if (auth()->check())
+                                    <form action="" method="POST" class="w-full">
+                                        <input type="hidden" name="product_id" value="{{$product->id}}">
+                                        <h5 class="mtext-108 cl2 p-b-7">
+                                            Add a comment
+                                        </h5>
 
-                                      <p class="stext-102 cl6">
-                                          Your email address will not be published. Required fields are marked *
-                                      </p>
-
-                                      <div class="flex-w flex-m p-t-50 p-b-23">
-                                          <span class="stext-102 cl3 m-r-16">
-                                              Your Rating
-                                          </span>
-
-                                          <span class="wrap-rating fs-18 cl11 pointer">
-                                              <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                              <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                              <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                              <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                              <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                              <input class="dis-none" type="number" name="rating">
-                                          </span>
-                                      </div>
-
-                                      <div class="row p-b-25">
-                                          <div class="col-12 p-b-5">
-                                              <label class="stext-102 cl3" for="review">Your review</label>
-                                              <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review"></textarea>
-                                          </div>
-
-                                          <div class="col-sm-6 p-b-5">
-                                              <label class="stext-102 cl3" for="name">Name</label>
-                                              <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name"
-                                                  type="text" name="name">
-                                          </div>
-
-                                          <div class="col-sm-6 p-b-5">
-                                              <label class="stext-102 cl3" for="email">Email</label>
-                                              <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email"
-                                                  type="text" name="email">
-                                          </div>
-                                      </div>
-<button
-                                          class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                          Submit
-                                      </button>
-                                  </form>
+                                        <div class="row p-b-25">
+                                            <div class="col-12 p-b-5">
+                                                <label class="stext-102 cl3" for="comment">Your comment</label>
+                                                <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="content" name="content"></textarea>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-sm btn-primary">Submit</button>
+                                    </form>
+                                   @else
+                                       <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Đăng nhập để bình luận</button>
+                                   @endif
                               </div>
                           </div>
                       </div>
@@ -367,11 +304,6 @@ Black, Blue, Grey, Green, Red, White
                           <div class="block2-pic hov-img0">
                               <img src="{{ asset('storage/images/admin/product/'.$item->image)}}"
                               alt="IMG-PRODUCT">
-
-                              <a href="#"
-                                  class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                  Quick View
-                              </a>
                           </div>
 
                           <div class="block2-txt flex-w flex-t p-t-14">
@@ -400,6 +332,36 @@ Black, Blue, Grey, Green, Red, White
       </div>
   </div>
 </section>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Đăng nhập</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div id="error"></div>
+          <form action="" method="post">
+            <div class="form-group">
+                <label for="">Email</label>
+                <input type="text" id="email" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">Password</label>
+                <input type="text" id="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="button" class="btn btn-primary btn-block" id="btn-login">Login</button>
+         </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
   integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -414,6 +376,39 @@ Black, Blue, Grey, Green, Red, White
           var numProduct = Number($(this).prev().val());
           $(this).prev().val(numProduct + 1);
       });
+      $('#btn-login').click(function(e){
+        e.preventDefault();
+        const _csrf='{{csrf_token()}}';
+        let _loginUrl='{{route("ajax.login")}}';
+        let email=$('#email').val();
+        let password=$('#password').val();
+
+        $.ajax({
+            url:_loginUrl,
+            type:'POST',
+            data:{
+                email:email,
+                password:password,
+                _token:_csrf
+            },
+            success:function(res){
+                // console.log(res)
+                if(res.error){
+                    let _html_error='<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                   for (let error of res.error) {
+                    _html_error+=/*html*/`
+                    <li>${error}</li>
+                    `;
+                   } 
+                   _html_error+='</div>';
+                   $('#error').html(_html_error);
+                }else{
+                    alert('Đăng nhập thành công');
+                    location.reload();
+                }
+            }
+        });
+      })
   });
 </script> 
 @endsection

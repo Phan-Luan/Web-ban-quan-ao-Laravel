@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Client\AjaxLoginController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -89,9 +91,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/{coupon}/edit', 'edit')->name('edit')->middleware('permission:update-coupon');
     });
 
-    Route::get('bills', [OrderController::class, 'index'])->name('admins.bills.index')->middleware('permission:list-order');
+    Route::get('bills', [AdminOrderController::class, 'index'])->name('admins.bills.index')->middleware('permission:list-order');
     Route::get('bill-detail/{id}', [AdminOrderController::class, 'bill_detail'])->name('bill.detail')->middleware('permission:list-order');
-    Route::post('update-status/{id}', [OrderController::class, 'updateStatus'])->name('admins.orders.update_status')->middleware('permission:list-order');;
+    Route::post('update-status/{id}', [AdminOrderController::class, 'updateStatus'])->name('admins.orders.update_status')->middleware('permission:list-order');
 });
 
 
@@ -110,5 +112,11 @@ Route::middleware('auth')->group(function () {
     Route::post('apply-coupon', [CartController::class, 'applyCoupon'])->name('client.carts.apply_coupon');
     Route::get('checkout', [CartController::class, 'checkout'])->name('client.checkout.index');
     Route::post('process-checkout', [CartController::class, 'processCheckout'])->name('client.checkout.proccess');
+    Route::get('/profile/{id}', [ProfileController::class, 'myProfile'])->name('client.profile');
+    Route::put('/update-profile/{id}', [ProfileController::class, 'updateProfile'])->name('client.updateProfile');
+    Route::get('/order/{id}', [CartController::class, 'myOrder'])->name('client.order');
+    Route::post('update-order/{id}', [ProfileController::class, 'updateStatus'])->name('clients.orders.update_status');
+    Route::get('profile-billdetail/{id}', [ProfileController::class, 'bill_detail'])->name('profile.bill-detail');
 });
 Auth::routes();
+Route::post('ajax-login', [AjaxLoginController::class, 'login'])->name('ajax.login');

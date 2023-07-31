@@ -107,19 +107,21 @@ class ProductController extends Controller
     }
     public function restore(Request $request)
     {
-        $product = Product::withTrashed()->find($request);
+        try {
+            $productId = $request->id;
+            $product = Product::withTrashed()->findOrFail($productId);
 
-        if ($product) {
             if ($product->trashed()) {
                 $product->restore();
                 return redirect()->route('products.deleted')->with(['success' => 'Đã khôi phục sản phẩm']);
             } else {
                 return redirect()->route('products.deleted')->with(['error' => 'Không tìm thấy bản ghi đã xóa mềm']);
             }
-        } else {
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->route('products.deleted')->with(['error' => 'Không tìm thấy sản phẩm']);
         }
     }
+
     public function deleted(Request $request)
     {
         $product = Product::withTrashed()->find($request->id);

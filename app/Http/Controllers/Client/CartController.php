@@ -202,7 +202,7 @@ class CartController extends Controller
     {
         $dataCreate = $request->all();
         $dataCreate['user_id'] = auth()->user()->id;
-        $dataCreate['status'] = 'pending';
+        $dataCreate['status'] = 'Pending';
         $order = $this->order->create($dataCreate);
 
         $cart = $this->cart->firtOrCreateBy(auth()->user()->id);
@@ -225,5 +225,13 @@ class CartController extends Controller
             'userId' => $order->user_id,
         ]);
         return to_route('home');
+    }
+    public function myOrder(Request $request)
+    {
+        $orders = $this->order->where('user_id', $request->id)->paginate(4);
+        if ($orders->isEmpty()) {
+            return view('clients.profile.order', ['message' => 'Bạn chưa có đơn hàng nào']);
+        }
+        return view('clients.profile.order', compact('orders'));
     }
 }

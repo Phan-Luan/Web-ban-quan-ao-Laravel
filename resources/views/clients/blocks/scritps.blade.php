@@ -112,4 +112,4 @@
 @yield('script')
 @stack('script')
 <script src="{{asset('assets/js/base.js')}}"></script>
-	<script src="{{asset('assets/clients/js/main.js')}}"></script>
+<script src="{{asset('assets/clients/js/main.js')}}"></script>
