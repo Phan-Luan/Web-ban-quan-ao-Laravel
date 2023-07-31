@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\CheckImage;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,18 +32,25 @@ class UserController extends Controller
         $roles = $this->role->all()->groupBy('group');
         return view('admins.users.create', compact('roles'));
     }
-
+    public function show()
+    {
+    }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+
+    public function store(StoreUserRequest $request)
     {
-        $dataCreate = $request->all();
-        $dataCreate['password'] = Hash::make($request->password);
-        $user = $this->user->create($dataCreate);
-        $user->roles()->attach($dataCreate['role_ids']);
-        return to_route('users.index')->with(['success' => 'create user success']);
+        $data = $request->validated();
+        $data['image'] = CheckImage::checkImage($request, 'admin/user');
+        $data['role_ids'] = $request->role_ids;
+        $data['password'] = Hash::make($request->password);
+        $user = $this->user->create($data);
+        $user->roles()->attach($data['role_ids']);
+        return to_route('admins.users.index')->with(['success' => 'Create user success']);
     }
+
+
     public function edit(string $id)
     {
         $user = $this->user->findOrFail($id)->load('roles');
@@ -51,16 +61,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        $dataUpdate = $request->except('password');
+        $data = $request->validated();
         $user = $this->user->findOrFail($id)->load('roles');
-        if ($request->password) {
-
-            $dataUpdate['password'] = Hash::make($request->password);
-        }
-        $user->update($dataUpdate);
-        $user->roles()->sync($dataUpdate['role_ids'] ?? []);
+        $data['role_ids'] = $request->role_ids;
+        $data['image'] = $request->hasFile('image') ? CheckImage::checkImage($request, 'admin/user') : $user->image;
+        // dd($data);
+        $user->update($data);
+        $user->roles()->sync($data['role_ids'] ?? []);
         return to_route('users.index')->with(['message' => 'update success']);
     }
     public function destroy(string $id)
@@ -68,7 +77,5 @@ class UserController extends Controller
         $user = $this->user->findOrFail($id)->load('roles');
         $user->delete();
         return to_route('users.index')->with(['message' => 'delete success']);
-
     }
-   
 }

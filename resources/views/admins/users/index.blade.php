@@ -68,7 +68,7 @@
                                         {{ $item->name }}
                                     </td>
                                     <td>
-                                        <img src="{{ asset('storage/images/admin/product/'.$item->image) }}" alt="" width="100" height="100">
+                                        <img src="{{ asset('storage/images/admin/user/'.$item->image) }}" alt="" width="100" height="100">
                                     </td>
                                     <td>
                                         {{ $item->email }}

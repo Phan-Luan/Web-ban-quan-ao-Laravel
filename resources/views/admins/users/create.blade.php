@@ -13,6 +13,14 @@
                 @csrf
                 @method('POST')
                 <div class="form-group">
+                    <label for="exampleInputUsername1">Avatar</label>
+                    <input type="file" class="form-control" value="{{ old('image') }}" id="exampleInputUsername1"
+                        placeholder="NameUser" name="image">
+                    @error('image')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group">
                     <label for="exampleInputUsername1">Name</label>
                     <input type="text" class="form-control" value="{{ old('name') }}" id="exampleInputUsername1"
                         placeholder="NameUser" name="name">

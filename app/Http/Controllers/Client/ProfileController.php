@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
+use App\Models\CheckImage;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,9 +29,10 @@ class ProfileController extends Controller
     }
     public function updateProfile(Request $request)
     {
-        $dataUpdate = $request->except('password');
+        $data = $request->except('password');
         $user = $this->user->findOrFail($request->id);
-        $user->update($dataUpdate);
+        $data['image'] = $request->hasFile('image') ? CheckImage::checkImage($request, 'admin/user') : $user->image;
+        $user->update($data);
         return to_route('client.profile', $request->id)->with(['message' => 'update success']);
     }
     public function updateStatus(Request $request, $id)

@@ -9,7 +9,23 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+#custom-file {
+  cursor: pointer;
+  /* Style as you please, it will become the visible UI component. */
+  position: relative;
+  background-image: url('../images/images.png');
+  background-repeat: no-repeat;
+  width: 150px;
+  object-fit: cover;
+  height: 120px;
+  object-position: 20% 20%;
+}
 
+#upload-photo {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
 body, html {
 	font-family: Arial, sans-serif;
 	font-size: 15px;

@@ -11,7 +11,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,40 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => [
+                'required',
+            ],
+            'email' => [
+                'required',
+                'unique:App\models\User,email',
+            ],
+            'password' => [
+                'required',
+            ],
+            'image' => [
+                'required',
+                'image'
+            ],
+             'phone' => [
+                'required',
+                'numeric'
+            ],
+            'address' => [
+                'required',
+            ],
+            'gender' => [
+                'required',
+            ],
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'required' => 'Không để trống',
+            'unique' => 'Tên đã tồn tại',
+            'numeric' => 'Phải là số',
+            'string' => 'Chỉ nhập chuỗi',
+            'image' => 'Phải là hình ảnh'
         ];
     }
 }

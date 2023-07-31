@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\User;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,35 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => [
+                'required',
+            ],
+            'email' => [
+                'required',
+                Rule::unique(User::class)->ignore($this->user)
+            ],
+            'image' => [
+                'image'
+            ],
+             'phone' => [
+                'numeric'
+            ],
+            'address' => [
+                'required',
+            ],
+            'gender'=>[
+                'required'
+            ]
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'required' => 'Không để trống',
+            'unique' => 'Tên đã tồn tại',
+            'numeric' => 'Phải là số',
+            'string' => 'Chỉ nhập chuỗi',
+            'image' => 'Phải là hình ảnh'
         ];
     }
 }
