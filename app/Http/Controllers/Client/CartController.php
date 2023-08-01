@@ -141,11 +141,9 @@ class CartController extends Controller
         $cartProduct =  $this->cartProduct->find($id);
         $cartProduct->delete();
         $cart =  $cartProduct->cart;
-        $couponCode = Session::get('discount_amount_price') ?? 0;
         return response()->json([
             'product_cart_id' => $id,
             'cart' => new CartResource($cart),
-            'coupon_code' => $couponCode,
         ], Response::HTTP_OK);
     }
 
@@ -162,7 +160,6 @@ class CartController extends Controller
         }
 
         $cart =  $cartProduct->cart;
-        $couponCode = Session::get('discount_amount_price') ?? 0;
 
 
         return response()->json([
@@ -171,35 +168,42 @@ class CartController extends Controller
             'remove_product' => $dataUpdate['product_quantity'] < 1,
             'cart_product_price' => $cartProduct->total_price,
             'amount' => $dataUpdate,
-            'coupon_code' => $couponCode,
         ], Response::HTTP_OK);
     }
 
     public function applyCoupon(Request $request)
     {
-
         $name = $request->input('coupon_code');
-
-        $coupon =  $this->coupon->firstWithExperyDate($name, auth()->user()->id);
-
+        $coupon = $this->coupon->firstWithExperyDate($name, auth()->user()->id);
         if ($coupon) {
+
             $message = 'Áp Mã giảm giá thành công !';
-            Session::put('coupon_id', $coupon->id);
+            $response = [
+                'success' => true,
+                'message' => $message,
+                'coupon_id' => $coupon->id,
+                'discount_amount_price' => $coupon->value,
+                'coupon_code' => $coupon->name,
+            ];
             Session::put('discount_amount_price', $coupon->value);
-            Session::put('coupon_code', $coupon->name);
         } else {
-            Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
+            Session::forget(['discount_amount_price']);
             $message = 'Mã giảm giá không tồn tại hoặc hết hạn!';
+            $response = [
+                'success' => false,
+                'message' => $message,
+            ];
         }
 
-        return redirect()->route('client.carts.index')->with([
-            'message' => $message,
-        ]);
+        return response()->json($response);
     }
+
     public function checkout()
     {
         $cart = $this->cart->firtOrCreateBy(auth()->user()->id)->load('products');
         $user = $this->user->findOrFail(auth()->user()->id);
+        $couponCode = Session::get('discount_amount_price');
+        $cart['coupon_code'] = $couponCode;
         return view('clients.carts.checkout', compact('cart', 'user'));
     }
 

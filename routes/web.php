@@ -117,6 +117,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/{id}', [CartController::class, 'myOrder'])->name('client.order');
     Route::post('update-order/{id}', [ProfileController::class, 'updateStatus'])->name('clients.orders.update_status');
     Route::get('profile-billdetail/{id}', [ProfileController::class, 'bill_detail'])->name('profile.bill-detail');
+    Route::post('product-detail/quantity-size/{id?}/{size?}', [ClientProductController::class, 'quantity_size'])->name('quantity_size');
+    Route::post('quantity-size/{id?}/{size?}', [ClientProductController::class, 'quantity_size'])->name('quantity_size');
 });
 Auth::routes();
 Route::post('ajax-login', [AjaxLoginController::class, 'login'])->name('ajax.login');

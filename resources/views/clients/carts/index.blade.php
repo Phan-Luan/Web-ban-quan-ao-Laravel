@@ -16,9 +16,9 @@
 
 
     <!-- Shoping Cart -->
-    @if (session('message'))
-        <h2 class="my-3 text-success" style="text-align: center; width:100%;"> {{ session('message') }}</h2>
-    @endif
+    <div id="message">
+
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -52,9 +52,10 @@
                                         @endif
                                     </td>
 
-                                    <td class="column-5">{{ $item->product_size }}</td>
+                                    <td class="column-5 size product-size">{{ $item->product_size }}</td>
 
                                     <td class="column-6">
+                                        <input type="hidden" id="product_id" value="{{ $item->product_id }}">
                                         <div class="wrap-num-product flex-w m-l-auto m-r-0">
                                             <button
                                                 class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m btn-update-quantity"
@@ -63,9 +64,10 @@
                                                 <i class="fs-16 zmdi zmdi-minus"></i>
                                             </button>
 
-                                            <input class="mtext-104 cl3 txt-center num-product" type="number"
-                                                id="productQuantityInput-{{ $item->id }}"
-                                                value="{{ $item->product_quantity }}">
+                                            <input
+                                                class="mtext-104 cl3 txt-center product-quantity-input num-product num-product-{{ $item->product_size }}"
+                                                type="number" id="productQuantityInput-{{ $item->id }}"
+                                                value="{{ $item->product_quantity }}" max="">
 
                                             <button
                                                 class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m btn-update-quantity"
@@ -92,10 +94,10 @@
 
                     <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
                         <div class="flex-w flex-m m-r-20 m-tb-5">
-                            <form method="POST" action="{{ route('client.carts.apply_coupon') }}">
+                            <form method="POST" id="form-coupon" data-action="{{ route('client.carts.apply_coupon') }}">
                                 @csrf
                                 <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text"
-                                    name="coupon_code" placeholder="Coupon Code" value="{{ Session::get('coupon_code') }}">
+                                    id="coupon_code" placeholder="Coupon Code" value="">
                             </form>
                         </div>
                     </div>
@@ -121,13 +123,9 @@
                             </span>
                         </div>
                     </div>
-                    @if (session('discount_amount_price'))
-                        <div class="d-flex justify-content-between mt-2">
-                            <h6 class="font-weight-medium">Coupon </h6>
-                            <h6 class="font-weight-medium coupon-div" data-price="{{ session('discount_amount_price') }}">
-                                {{ session('discount_amount_price') }} %</h6>
-                        </div>
-                    @endif
+                    <div class="d-flex justify-content-between mt-2" id="value_coupon">
+
+                    </div>
 
 
 
@@ -161,12 +159,33 @@
         $(document).ready(function() {
             $('.btn-num-product-down').on('click', function() {
                 var numProduct = Number($(this).next().val());
-                if (numProduct > 0) $(this).next().val(numProduct - 1);
+                if (numProduct > 1) $(this).next().val(numProduct - 1);
             });
 
             $('.btn-num-product-up').on('click', function() {
                 var numProduct = Number($(this).prev().val());
-                $(this).prev().val(numProduct + 1);
+                let maxValue = $(this).closest('.table_row').find('.product-quantity-input').attr('max');
+
+                if (numProduct < maxValue) {
+                    $(this).prev().val(numProduct + 1);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.product-size').each(function() {
+                let index = 0;
+                let select_value = $(this).text().trim();
+
+                const product_id = $("#product_id").val();
+
+                let url = `quantity-size/${product_id}/${select_value}`;
+
+                $.post(url, res => {
+                    $(this).closest('.table_row').find(`.num-product-${select_value}`).attr('max',
+                        res[index++]);
+                });
             });
         });
     </script>
@@ -182,26 +201,48 @@
                 let couponPrice = $('.coupon-div')?.data('price') ?? 0;
                 $('.total-price-all').text(`$${total - (total/100*couponPrice)}`);
             }
-
+            $('#form-coupon').on('submit', function(e) {
+                e.preventDefault();
+                let url = $(this).data('action');
+                let data = {
+                    coupon_code: $(`#coupon_code`).val(),
+                }
+                $.post(url, data, res => {
+                    $('#value_coupon').html( /*html*/ `
+                        <h6 class="font-weight-medium">Coupon </h6>
+                        <h6 class="font-weight-medium coupon-div" data-price="${res.discount_amount_price??0}">${res.discount_amount_price??0} %</h6>
+                    `);
+                }).then(res => {
+                    let total = $('.total-price').data('price');
+                    let total_price = res.discount_amount_price ?? 0;
+                    $('.total-price-all').text(
+                        `$${total - (total/100*total_price)}`);
+                    $('#message').html(
+                        `<h2 class="my-3 text-success" style="text-align: center; width:100%;">${res.message}</h2>`
+                    );
+                })
+                // console.log(url);
+            })
             $(document).on('click', '.btn-remove-product', function(e) {
                 let url = $(this).data('action');
                 confirmDelete().then(function() {
                     $.post(url, res => {
-                        console.log(res);
+                        // console.log(res);
                         let cart = res.cart;
                         let cartProductId = res.product_cart_id;
+                        let coupon_code = $('.coupon-div')?.data('price') ?? 0;
                         $('#productCountCart').text(cart.product_count);
                         $('.total-price').text(`$${cart.total_price}`).data('price', cart
                             .product_count);
                         $(`#row-${cartProductId}`).remove();
                         $('.total-price-all').text(
-                            `$${cart.total_price - (cart.total_price/100*res.coupon_code)}`
-                            );
+                            `$${cart.total_price - (cart.total_price/100*coupon_code)}`
+                        );
                     });
                 }).catch(function() {});
             });
 
-            const TIME_TO_UPDATE = 1000;
+            const TIME_TO_UPDATE = 1500;
             $(document).on('click', '.btn-update-quantity', _.debounce(function(e) {
                 let url = $(this).data('action');
                 let id = $(this).data('id');
@@ -213,6 +254,7 @@
                     // console.log(res);
                     let cartProductId = res.product_cart_id;
                     let cart = res.cart;
+                    let coupon_code = $('.coupon-div')?.data('price') ?? 0;
                     $('#productCountCart').text(cart.product_count);
                     if (res.remove_product) {
                         $(`#row-${cartProductId}`).remove();
@@ -225,7 +267,7 @@
                     $('.total-price').text(`$${cart.total_price}`);
                     $(`#price-${res.product_cart_id}`).text(`${res.cart_product_price}`);
                     $('.total-price-all').text(
-                        `$${cart.total_price - (cart.total_price/100*res.coupon_code)}`);
+                        `$${cart.total_price - (cart.total_price/100*coupon_code)}`);
                     Swal.fire({
                         position: "top-end",
                         icon: "success",

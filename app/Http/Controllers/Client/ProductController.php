@@ -32,10 +32,28 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = $this->product->with('details')->findOrFail($id);
-        $categoryId = $product->category->pluck('id')->first(); // Assuming a product can belong to multiple categories, we retrieve the first category ID.
+        // dd($product);
+        $categoryId = $product->category->pluck('id')->first();
 
         $relatedProducts = $this->product->getBy($product->name, $categoryId);
 
         return view('clients.product.product-detail', compact('product', 'relatedProducts'));
+    }
+    public function quantity_size(Request $request)
+    {
+        $product_id = $request->id;
+        $size = $request->size;
+
+        $product = $this->product->where('id', $product_id)->first();
+
+        if ($product) {
+            $details = $product->details->where('size', $size)->first();
+
+            if ($details) {
+                $quantity = $details->quantity;
+                return response()->json([$quantity]);
+            }
+        }
+        return response()->json(['error' => "Không tìm thấy sản phẩm"], 404);
     }
 }
