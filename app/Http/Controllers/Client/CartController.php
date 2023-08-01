@@ -141,9 +141,11 @@ class CartController extends Controller
         $cartProduct =  $this->cartProduct->find($id);
         $cartProduct->delete();
         $cart =  $cartProduct->cart;
+        $couponCode = Session::get('discount_amount_price') ?? 0;
         return response()->json([
             'product_cart_id' => $id,
-            'cart' => new CartResource($cart)
+            'cart' => new CartResource($cart),
+            'coupon_code' => $couponCode,
         ], Response::HTTP_OK);
     }
 
@@ -160,13 +162,16 @@ class CartController extends Controller
         }
 
         $cart =  $cartProduct->cart;
+        $couponCode = Session::get('discount_amount_price') ?? 0;
 
 
         return response()->json([
             'product_cart_id' => $id,
             'cart' => new CartResource($cart),
             'remove_product' => $dataUpdate['product_quantity'] < 1,
-            'cart_product_price' => $cartProduct->total_price
+            'cart_product_price' => $cartProduct->total_price,
+            'amount' => $dataUpdate,
+            'coupon_code' => $couponCode,
         ], Response::HTTP_OK);
     }
 
