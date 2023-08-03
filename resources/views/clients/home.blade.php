@@ -1,4 +1,5 @@
 @extends('layouts.client')
+@section('title_page', 'Home')
 @section('content')
     <!-- Slider -->
     <section class="section-slide">
@@ -92,7 +93,8 @@
                     <div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
                         <!-- Block1 -->
                         <div class="block1 wrap-pic-w">
-                            <img style="height: 300px;height: 300px;" src="{{ asset('storage/images/admin/category/' . $item->image) }}" alt="IMG-BANNER">
+                            <img style="height: 300px;height: 300px;"
+                                src="{{ asset('storage/images/admin/category/' . $item->image) }}" alt="IMG-BANNER">
 
                             <a href="{{ route('client.products.categoryid', ['category_id' => $item->id]) }}"
                                 class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
@@ -164,7 +166,8 @@
 
             <!-- Load more -->
             <div class="flex-c-m flex-w w-full p-t-45">
-                <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+                <a href="{{ route('product') }}"
+                    class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                     Load More
                 </a>
             </div>

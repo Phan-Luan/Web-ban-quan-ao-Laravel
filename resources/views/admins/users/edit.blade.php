@@ -2,12 +2,12 @@
 @section('name-content')
     Edit Uesr
 @endsection
+@section('title','Update User')
 @section('content')
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">EDIT USER</h4>
                     <p class="card-description">
 
                     </p>

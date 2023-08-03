@@ -1,11 +1,11 @@
 @extends('layouts.admin')
+@section('title','Create User')
 @section('name-content')
-  New User
+  Create User
 @endsection
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">CREATE USER</h4>
             <p class="card-description">
                 Back
             </p>

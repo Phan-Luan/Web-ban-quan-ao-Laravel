@@ -2,10 +2,10 @@
 @section('name-content')
   New Product
 @endsection
+@section('title','Create Product')
 @section('content')
   <form action="{{route('products.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
-    <h2 class="text-center">Thêm sản phẩm</h2>
     <div class="form-group">
       <label for="" class="form-label">Tên sản phẩm</label>
       <span class="text-danger m-1">

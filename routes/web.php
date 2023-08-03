@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\AjaxLoginController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -112,13 +113,19 @@ Route::middleware('auth')->group(function () {
     Route::post('apply-coupon', [CartController::class, 'applyCoupon'])->name('client.carts.apply_coupon');
     Route::get('checkout', [CartController::class, 'checkout'])->name('client.checkout.index');
     Route::post('process-checkout', [CartController::class, 'processCheckout'])->name('client.checkout.proccess');
+    Route::get('process-checkout-vnpay', [CartController::class, 'processCheckoutVnpay']);
     Route::get('/profile/{id}', [ProfileController::class, 'myProfile'])->name('client.profile');
     Route::put('/update-profile/{id}', [ProfileController::class, 'updateProfile'])->name('client.updateProfile');
     Route::get('/order/{id}', [CartController::class, 'myOrder'])->name('client.order');
     Route::post('update-order/{id}', [ProfileController::class, 'updateStatus'])->name('clients.orders.update_status');
     Route::get('profile-billdetail/{id}', [ProfileController::class, 'bill_detail'])->name('profile.bill-detail');
-    Route::post('product-detail/quantity-size/{id?}/{size?}', [ClientProductController::class, 'quantity_size'])->name('quantity_size');
-    Route::post('quantity-size/{id?}/{size?}', [ClientProductController::class, 'quantity_size'])->name('quantity_size');
+
+    // Route::post('quantity-sizes/{id?}/{size?}',[ClientProductController::class,'quantity_sizes'])->name('quantity-sizes');
+    Route::post('comment/{product_id}', [AjaxLoginController::class, 'comment'])->name('ajax.comment');
+
+    //vnpay
+    Route::post('vnpay_payment', [PaymentController::class, 'vnpay_payment'])->name("vnpay_payment");
 });
 Auth::routes();
 Route::post('ajax-login', [AjaxLoginController::class, 'login'])->name('ajax.login');
+Route::post('product-detail/quantity-size/{id?}/{size?}', [ClientProductController::class, 'quantity_size'])->name('quantity_size');

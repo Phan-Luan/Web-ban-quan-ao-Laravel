@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 @section('name-content')
-  Users
+  List User
 @endsection
+@section('title','List User')
 @section('content')
 {{-- <form  action="">
   <div class="input-group d-flex align-items-center my-2 justify-content-end">
@@ -24,7 +25,6 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">User</h4>
                 {{-- <div class="pull-left search">
                     <form>
                         <input type="search" class="form-control" placeholder="Search" name="q"

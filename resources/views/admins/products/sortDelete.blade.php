@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('title','Products Deleted')
 @section('name-content')
   Products Deleted
 @endsection

@@ -1,11 +1,17 @@
 @extends('layouts.client')
+@section('title_page', 'My Order')
 @section('content')
-
+    <style>
+        .container {
+            margin-bottom: 100px;
+        }
+    </style>
     <div class="col-lg-12 grid-margin stretch-card container">
 
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Order</h4>
+                <a href="{{ route('client.profile', auth()->user()->id) }}">Back</a>
+                <h4 class="card-title">My Order</h4>
                 @if (isset($message))
                     <p>{{ $message }}</p>
                 @else
@@ -66,7 +72,8 @@
                                                 </td>
                                             @endif
                                         @endif
-                                        <td><a href="{{ route('profile.bill-detail', $item->id) }}"><i class="fa fa-exclamation-circle"></i></a></td>
+                                        <td><a href="{{ route('profile.bill-detail', $item->id) }}"><i
+                                                    class="fa fa-exclamation-circle"></i></a></td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('q');
-        $products = Product::latest('id')->where('name', 'like', '%' . $search . '%')->paginate(5);
+        $products = Product::latest('id')->where('name', 'like', '%' . $search . '%')->paginate(4);
         $products->load('category');
         $products->append(['q' => $search]);
         return view('admins.products.index', compact(['products', 'search']));

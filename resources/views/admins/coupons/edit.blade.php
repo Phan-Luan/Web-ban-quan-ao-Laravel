@@ -1,11 +1,13 @@
 @extends('layouts.admin')
 @section('title','Update Coupon')
+@section('name-content')
+Update Coupon
+@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
           <div class="card-body">
-              <h4 class="card-title">EDIT COUPON</h4>
               <p class="card-description">
 
               </p>

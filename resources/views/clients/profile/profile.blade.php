@@ -1,4 +1,5 @@
 @extends('layouts.client')
+@section('title_page', 'My Profile')
 @section('content')
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -6,6 +7,10 @@
         body {
             margin-top: 20px;
             background: #f8f8f8
+        }
+
+        .container {
+            margin-bottom: 100px;
         }
     </style>
     <div class="container">
@@ -41,7 +46,8 @@
                                             <div class="mx-auto" style="width: 140px;">
                                                 <div class="d-flex justify-content-center align-items-center rounded"
                                                     style="height: 140px; background-color: rgb(233, 236, 239);">
-                                                    <img style="height: 100%;width: 100%;" src="{{ asset('storage/images/admin/user/'.$user->image) }}"
+                                                    <img style="height: 100%;width: 100%;"
+                                                        src="{{ asset('storage/images/admin/user/' . $user->image) }}"
                                                         alt="avatar">
                                                 </div>
                                             </div>

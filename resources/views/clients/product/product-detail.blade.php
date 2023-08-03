@@ -1,5 +1,25 @@
 @extends('layouts.client')
 @section('content')
+    <style>
+        .main-menu li a,
+        .bread-crumb a,
+        .link_myprofile {
+            text-decoration: none;
+        }
+
+        .right-top-bar {
+            align-items: center;
+        }
+
+        .detail-link a {
+            padding: 0 15px;
+        }
+
+        .detail-link a:hover,
+        .link_myprofile:hover {
+            color: #fff;
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <div class="container">
@@ -62,13 +82,16 @@
                         <form action="{{ route('client.carts.add') }}" method="POST">
                             @csrf
                             <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
-                            <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                            <h4 class=" cl2 js-name-detail p-b-14">
                                 {{ $product->name }}
                             </h4>
-
-                            <span class="mtext-106 cl2">
+                            <p id="product_number"></p>
+                            <p class=" cl2">
+                                {{ $product->desc }}
+                            </p>
+                            <strong class="cl2">
                                 {{ $product->price }} $
-                            </span>
+                            </strong>
 
                             <p class="stext-102 cl3 p-t-23">
                                 {{ $product->description }}
@@ -100,6 +123,7 @@
                                 @endif
                             </div>
                             <div class="flex-w flex-r-m p-b-10">
+
                                 <div class="size-204 flex-w flex-m respon6-next">
                                     <div class="wrap-num-product flex-w m-r-20 m-tb-10">
                                         <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -187,66 +211,6 @@
                         <div class="row">
                             <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
                                 <div class="p-b-30 m-lr-15-sm">
-                                    <!-- Review -->
-                                    <div class="flex-w flex-t p-b-68">
-                                        <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-                                            <img src="{{ asset('client/images/avatar-01.jpg') }}" alt="AVATAR">
-                                        </div>
-
-                                        <div class="size-207">
-                                            <div class="flex-w flex-sb-m p-b-17">
-                                                <span class="mtext-107 cl2 p-r-20">Ariana Grande</span>
-                                            </div>
-
-                                            <p class="stext-102 cl6">
-                                                Quod autem in homine praestantissimum atque optimum est, id deseruit.
-                                                Apud ceteros autem philosophos
-                                            </p>
-                                            @if (auth()->check())
-                                                <p>
-                                                    <a href="#" class="btn btn-sm btn-primary">Reply</a>
-                                                </p>
-                                            @endif
-
-                                            <!-- Bình luận con-->
-                                            <div class="">
-                                                <div class="my-2">
-                                                    <div class="flex-w flex-sb-m p-b-17">
-                                                        <span class="mtext-107 cl2 p-r-20">
-                                                            Ariana Grande
-                                                        </span>
-                                                    </div>
-
-                                                    <p class="stext-102 cl6">
-                                                        Quod autem in homine praestantissimum atque optimum est, id
-                                                        deseruit.
-                                                        Apud ceteros autem philosophos
-                                                    </p>
-                                                    @if (auth()->check())
-                                                        <p>
-                                                            <a href="#" class="btn btn-sm btn-primary">Reply</a>
-                                                        </p>
-                                                    @endif
-                                                </div>
-                                                <form style="display:none" action="" method="POST" class="w-full">
-                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                                                    <div class="row p-b-25">
-                                                        <div class="col-12 p-b-5">
-                                                            <label class="stext-102 cl3" for="comment">Your
-                                                                comment</label>
-                                                            <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="content" name="content"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <button class="btn btn-sm btn-primary">
-                                                        Submit
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Add review -->
                                     @if (auth()->check())
                                         <form action="" method="POST" class="w-full">
                                             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -266,12 +230,83 @@
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal">Đăng nhập để bình luận</button>
                                     @endif
+                                    <!-- Review -->
+                                    <h3 class="mt-5">Các bình luận</h3>
+                                    {{-- <div class="flex-w flex-t p-b-68 mt-3">
+                                        <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                            <img src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien-600x600.jpg"
+                                                alt="AVATAR">
+                                        </div>
+
+                                        <div class="size-207">
+                                            <div class="flex-w flex-sb-m p-b-17">
+                                                <span class="mtext-107 cl2 p-r-20">Ariana Grande</span>
+                                            </div>
+
+                                            <p class="stext-102 cl6">
+                                                Quod autem in homine praestantissimum atque optimum est, id deseruit.
+                                                Apud ceteros autem philosophos
+                                            </p>
+                                            @if (auth()->check())
+                                                <p>
+                                                    <a href="#" class="btn btn-sm btn-primary">Reply</a>
+                                                </p>
+                                            @endif --}}
+
+                                    <!-- Bình luận con-->
+                                    {{-- <div class="">
+                                                <div class="my-2">
+                                                    <div class="d-flex">
+                                                        <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                                            <img src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien-600x600.jpg"
+                                                                alt="AVATAR">
+                                                        </div>
+                                                        <div class="">
+                                                            <div class="flex-w flex-sb-m p-b-17">
+                                                                <span class="mtext-107 cl2 p-r-20">
+                                                                    Ariana Grande
+                                                                </span>
+                                                            </div>
+
+                                                            <p class="stext-102 cl6">
+                                                                Quod autem in homine praestantissimum atque optimum est, id
+                                                                deseruit.
+                                                                Apud ceteros autem philosophos
+                                                            </p>
+                                                        </div>
+                                                        @if (auth()->check())
+                                                            <p>
+                                                                <a href="#" class="btn btn-sm btn-primary">Reply</a>
+                                                            </p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <form style="display:none" action="" method="POST" class="w-full">
+                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                                                    <div class="row p-b-25">
+                                                        <div class="col-12 p-b-5">
+                                                            <label class="stext-102 cl3" for="comment">Your
+                                                                comment</label>
+                                                            <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="content" name="content"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        Submit
+                                                    </button>
+                                                </form>
+                                            </div> --}}
                                 </div>
                             </div>
+
+                            <!-- Add review -->
+
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
         </div>
 
@@ -393,11 +428,12 @@
             $('.js-select2').change(function() {
                 let select_value = $(".js-select2").val();
                 const product_id = $("#product_id").val();
-                console.log(product_id)
                 let url = `quantity-size/${product_id}/${select_value}`;
                 let max = $(".num-product")
                 $.post(url, res => {
                     max.attr('max', res[0]);
+                    let product_number = $("#product_number").html(
+                        `Còn: <span>${res[0]}</span> sản phẩm`);
                 });
             })
             $('#btn-login').click(function(e) {
@@ -416,7 +452,7 @@
                         _token: _csrf
                     },
                     success: function(res) {
-                        // console.log(res)
+                        console.log(res)
                         if (res.error) {
                             let _html_error =
                                 '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';

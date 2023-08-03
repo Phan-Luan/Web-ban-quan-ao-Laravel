@@ -1,10 +1,9 @@
 @extends('layouts.admin')
-@section('title','List Role')
-@section('name-content',' List Role')
+@section('title','Edit Role')
+@section('name-content',' Edit Role')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">EDIT ROLE</h4>
             <p class="card-description">
                 Back
             </p>

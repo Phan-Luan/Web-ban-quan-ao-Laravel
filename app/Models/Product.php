@@ -27,6 +27,6 @@ class Product extends Model
     }
     public function getBy($dataSearch, $categoryId)
     {
-        return $this->whereHas('category', fn ($q) => $q->where('category_id', $categoryId))->paginate(3);
+        return $this->whereHas('category', fn ($q) => $q->where('category_id', $categoryId))->paginate(12);
     }
 }

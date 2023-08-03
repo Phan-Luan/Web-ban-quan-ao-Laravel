@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -33,5 +34,26 @@ class AjaxLoginController extends Controller
         }
 
         return response()->json(['errors' => $validator->errors()]);
+    }
+    public function comment(Request $request, $product_id)
+    {
+        $user_id = Auth::guard('web')->user()->id;
+        $validator = Validator::make($request->all(), [
+            'content' => 'required',
+        ], [
+            'required' => 'Không được để trống',
+        ]);
+        if ($validator->passes()) {
+            $data = [
+                "user_id" => $user_id,
+                "product_id" => $product_id,
+                "content" => $request->content
+            ];
+            if ($comment = Comment::create($data)) {
+                return response()->json(['data' => $comment]);
+            }
+        }
+
+        return response()->json(['errors' => $validator->errors()->first()]);
     }
 }

@@ -1,4 +1,5 @@
 @extends('layouts.client')
+@section('title_page', 'My Cart')
 @section('content')
     <!-- breadcrumb -->
     <div class="container">
@@ -43,19 +44,10 @@
                                         </div>
                                     </td>
                                     <td class="column-2">{{ $item->product->name }}</td>
-                                    <td class="column-3">
-                                        <p style="{{ $item->product->sale ? 'text-decoration: line-through' : '' }}; ">
-                                            ${{ $item->product->price }}
-                                        </p>
-                                        @if ($item->product->sale)
-                                            <p> ${{ $item->product->sale_price }} </p>
-                                        @endif
-                                    </td>
 
-                                    <td class="column-5 size product-size">{{ $item->product_size }}</td>
+                                    <td class="column-5">{{ $item->product_size }}</td>
 
                                     <td class="column-6">
-                                        <input type="hidden" id="product_id" value="{{ $item->product_id }}">
                                         <div class="wrap-num-product flex-w m-l-auto m-r-0">
                                             <button
                                                 class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m btn-update-quantity"
@@ -64,10 +56,9 @@
                                                 <i class="fs-16 zmdi zmdi-minus"></i>
                                             </button>
 
-                                            <input
-                                                class="mtext-104 cl3 txt-center product-quantity-input num-product num-product-{{ $item->product_size }}"
-                                                type="number" id="productQuantityInput-{{ $item->id }}"
-                                                value="{{ $item->product_quantity }}" max="">
+                                            <input class="mtext-104 cl3 txt-center num-product" type="number"
+                                                id="productQuantityInput-{{ $item->id }}"
+                                                value="{{ $item->product_quantity }}" max="20">
 
                                             <button
                                                 class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m btn-update-quantity"
@@ -159,33 +150,12 @@
         $(document).ready(function() {
             $('.btn-num-product-down').on('click', function() {
                 var numProduct = Number($(this).next().val());
-                if (numProduct > 1) $(this).next().val(numProduct - 1);
+                if (numProduct > 0) $(this).next().val(numProduct - 1);
             });
 
             $('.btn-num-product-up').on('click', function() {
                 var numProduct = Number($(this).prev().val());
-                let maxValue = $(this).closest('.table_row').find('.product-quantity-input').attr('max');
-
-                if (numProduct < maxValue) {
-                    $(this).prev().val(numProduct + 1);
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('.product-size').each(function() {
-                let index = 0;
-                let select_value = $(this).text().trim();
-
-                const product_id = $("#product_id").val();
-
-                let url = `quantity-size/${product_id}/${select_value}`;
-
-                $.post(url, res => {
-                    $(this).closest('.table_row').find(`.num-product-${select_value}`).attr('max',
-                        res[index++]);
-                });
+                $(this).prev().val(numProduct + 1);
             });
         });
     </script>
@@ -212,7 +182,6 @@
                         <h6 class="font-weight-medium">Coupon </h6>
                         <h6 class="font-weight-medium coupon-div" data-price="${res.discount_amount_price??0}">${res.discount_amount_price??0} %</h6>
                     `);
-                }).then(res => {
                     let total = $('.total-price').data('price');
                     let total_price = res.discount_amount_price ?? 0;
                     $('.total-price-all').text(
@@ -242,7 +211,7 @@
                 }).catch(function() {});
             });
 
-            const TIME_TO_UPDATE = 1500;
+            const TIME_TO_UPDATE = 1000;
             $(document).on('click', '.btn-update-quantity', _.debounce(function(e) {
                 let url = $(this).data('action');
                 let id = $(this).data('id');

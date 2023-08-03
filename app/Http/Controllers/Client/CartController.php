@@ -218,6 +218,17 @@ class CartController extends Controller
         $cartProducts = $cart->products;
 
         foreach ($cartProducts as $cartProduct) {
+            $product = $this->product
+                ->with('details')
+                ->where('id', $cartProduct->product_id)->firstOrFail();
+                
+                //thay đổi số lượng sản phẩm của size khi mua 
+            foreach ($product->details as $item) {
+                if ($item->size == $cartProduct->product_size) {
+                    $item->quantity  = $item->quantity - $cartProduct->product_quantity;
+                    $item->save();
+                }
+            }
             $productOrderData = [
                 'order_id' => $order->id,
                 'product_id' => $cartProduct->product_id,
@@ -242,5 +253,41 @@ class CartController extends Controller
             return view('clients.profile.order', ['message' => 'Bạn chưa có đơn hàng nào']);
         }
         return view('clients.profile.order', compact('orders'));
+    }
+    public function processCheckoutVnpay(Request $request)
+    {
+        $data = $request->query();
+        $dataCreate['user_id'] = auth()->user()->id;
+        $dataCreate['status'] = 'Pending';
+        $dataCreate['customer_name'] = $data['customer_name'];
+        $dataCreate['customer_phone'] = $data['customer_phone'];
+        $dataCreate['customer_email'] = $data['customer_email'];
+        $dataCreate['customer_address'] = $data['customer_address'];
+        $dataCreate['note'] = $data['note'];
+        $dataCreate['ship'] = 20;
+        $dataCreate['total'] = $data['total'];
+        $dataCreate['payment'] = "VnPay";
+        $order = $this->order->create($dataCreate);
+
+        $cart = $this->cart->firtOrCreateBy(auth()->user()->id);
+        $cartProducts = $cart->products;
+
+        foreach ($cartProducts as $cartProduct) {
+            $productOrderData = [
+                'order_id' => $order->id,
+                'product_id' => $cartProduct->product_id,
+                'product_size' => $cartProduct->product_size,
+                'product_quantity' => $cartProduct->product_quantity,
+                'product_price' => $cartProduct->product_price,
+            ];
+            $this->bill->create($productOrderData);
+        }
+
+        $cartProducts->each->delete();
+        Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
+        Artisan::call('test:send-mail-order', [
+            'userId' => $order->user_id,
+        ]);
+        return to_route('home');
     }
 }

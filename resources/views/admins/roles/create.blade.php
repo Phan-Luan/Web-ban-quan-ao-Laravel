@@ -4,7 +4,6 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">CREATE ROLE</h4>
             <p class="card-description">
                 Back
             </p>

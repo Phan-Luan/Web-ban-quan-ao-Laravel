@@ -13,6 +13,5 @@ class Comment extends Model
         'product_id',
         'content',
         'reply_id',
-        'status'
     ];
 }

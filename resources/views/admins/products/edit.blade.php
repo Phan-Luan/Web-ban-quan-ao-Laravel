@@ -6,7 +6,6 @@
     <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <h2 class="text-center">Cập nhật sản phẩm</h2>
         <div class="form-group">
             <label for="" class="form-label">Tên sản phẩm</label>
             <span class="text-danger m-1">
