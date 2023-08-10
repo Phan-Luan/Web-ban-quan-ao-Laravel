@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Client\AjaxLoginController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
@@ -78,7 +79,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/product-restore/{id}', [ProductController::class, 'restore'])->name('products.restore')->middleware('permission:show-product');
         Route::get('/product-delete/{id}', [ProductController::class, 'deleted'])->name('product.delete')->middleware('permission:delete-product');
     });
-
+    Route::get('print-bill/{checkout_code}', [AdminOrderController::class, 'print_bill'])->name('print_bill');
     // Route::resource('coupons', CouponController::class)->except([
     //     'show',
     // ]);
@@ -112,8 +113,6 @@ Route::middleware('auth')->group(function () {
     Route::post('remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.carts.remove_product');
     Route::post('apply-coupon', [CartController::class, 'applyCoupon'])->name('client.carts.apply_coupon');
     Route::get('checkout', [CartController::class, 'checkout'])->name('client.checkout.index');
-    Route::post('process-checkout', [CartController::class, 'processCheckout'])->name('client.checkout.proccess');
-    Route::get('process-checkout-vnpay', [CartController::class, 'processCheckoutVnpay']);
     Route::get('/profile/{id}', [ProfileController::class, 'myProfile'])->name('client.profile');
     Route::put('/update-profile/{id}', [ProfileController::class, 'updateProfile'])->name('client.updateProfile');
     Route::get('/order/{id}', [CartController::class, 'myOrder'])->name('client.order');
@@ -125,7 +124,15 @@ Route::middleware('auth')->group(function () {
 
     //vnpay
     Route::post('vnpay_payment', [PaymentController::class, 'vnpay_payment'])->name("vnpay_payment");
+    Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
+    Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+    Route::get('email/verify', [VerificationController::class, 'show'])->middleware('auth')->name('verification.notice');
+    Route::get('confirmation', function () {
+        return view('clients.carts.checkOrder');
+    })->name('confirmation');
 });
 Auth::routes();
 Route::post('ajax-login', [AjaxLoginController::class, 'login'])->name('ajax.login');
 Route::post('product-detail/quantity-size/{id?}/{size?}', [ClientProductController::class, 'quantity_size'])->name('quantity_size');
+Route::post('process-checkout', [CartController::class, 'processCheckout'])->name('client.checkout.proccess');
+Route::get('process-checkout-vnpay', [CartController::class, 'processCheckoutVnpay'])->name('client.checkout-vnpay');

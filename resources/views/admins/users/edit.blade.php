@@ -2,7 +2,7 @@
 @section('name-content')
     Edit Uesr
 @endsection
-@section('title','Update User')
+@section('title', 'Update User')
 @section('content')
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Avata</label>
-                                    <input type="file" name="image" id="image-input" class="file-upload-default">
+                                    <input type="file" name="image" id="image-input" class="form-control col-4">
                                     @error('image')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -77,14 +77,14 @@
                                     <div class="col-md-2">
                                         <h4>{{ $groupName }}</h4>
                                         @foreach ($role as $item)
-                                            <div class="col">
-                                                <p class="mb-2">{{ $item->display_name }}</p>
+                                            <div class="col d-flex">
                                                 <label class="toggle-switch toggle-switch-success">
                                                     <input type="checkbox" value="{{ $item->id }}"
                                                         {{ $user->roles->contains('id', $item->id) ? 'checked' : '' }}
                                                         name="role_ids[]">
                                                     <span class="toggle-slider round"></span>
                                                 </label>
+                                                <p class="mb-2 ml-2">{{ $item->display_name }}</p>
                                             </div>
                                         @endforeach
                                     </div>

@@ -24,15 +24,15 @@
                     <tr>
                         <td>{{ $index++ }}</td>
                         <td>{{ $item->product->name }}</td>
-                        <td><img src="{{ asset('storage/images/admin/product/' . $item->product->image) }}" width="100"
-                                alt=""></td>
+                        <td><img src="{{ asset('storage/images/admin/product/' . $item->product->image) }}"
+                                width="100" alt=""></td>
                         <td>{{ $item->product_quantity }}</td>
                         <td>{{ $item->product_price }}</td>
                         <td>{{ $item->product_price * $item->product_quantity }}</td>
                     </tr>
                 @endforeach
                 <tr>
-                    <td colspan="1"><strong>Shipping</strong></td>
+                    <td colspan="1"><strong>Transport fee</strong></td>
                     <td colspan="1">{{ $user->order->ship }}</td>
                     <td colspan="2"><strong>Total Bill</strong></td>
                     <td colspan="2">{{ $user->order->total }}</td>

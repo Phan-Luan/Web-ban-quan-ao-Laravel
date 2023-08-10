@@ -10,7 +10,7 @@
 
         <div class="card">
             <div class="card-body">
-                <a href="{{ route('client.order', auth()->user()->id) }}">Back</a>
+                <a href="{{ route('client.order', auth()->user()->id) }}"><i class="fa fa-arrow-circle-left"></i> Back</a>
                 <h4 class="card-title">Detail Bill</h4>
                 <div class="table-responsive pt-3">
                     <table class="table table-bordered text-center">

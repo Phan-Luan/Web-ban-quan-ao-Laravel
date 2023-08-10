@@ -10,8 +10,8 @@ class PaymentController extends Controller
     public function vnpay_payment(Request $request)
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost:8000/process-checkout-vnpay";
-        $vnp_Returnurl .= "?customer_name=" . urlencode($request->customer_name) . "&customer_phone=" . urlencode($request->customer_phone). "&customer_email=" . urlencode($request->customer_email). "&customer_address=" . urlencode($request->customer_address). "&note=" . urlencode($request->note). "&total=" . urlencode($request->total). "&customer_phone=" . urlencode($request->customer_phone);
+        $vnp_Returnurl = route('client.checkout-vnpay');
+        $vnp_Returnurl .= "?customer_name=" . urlencode($request->customer_name) . "&customer_phone=" . urlencode($request->customer_phone) . "&customer_email=" . urlencode($request->customer_email) . "&customer_address=" . urlencode($request->customer_address) . "&note=" . urlencode($request->note) . "&total=" . urlencode($request->total) . "&customer_phone=" . urlencode($request->customer_phone);
         $vnp_TmnCode = "YQ5X7G4P"; //Mã website tại VNPAY 
         $vnp_HashSecret = "HFETLNXHUKAEYLQYEFEFHBZXOTZJRJRI"; //Chuỗi bí mật
 

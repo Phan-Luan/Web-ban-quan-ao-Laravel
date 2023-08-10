@@ -10,7 +10,7 @@
 
         <div class="card">
             <div class="card-body">
-                <a href="{{ route('client.profile', auth()->user()->id) }}">Back</a>
+                <a href="{{ route('client.profile', auth()->user()->id) }}"><i class="fa fa-arrow-circle-left"></i> Back</a>
                 <h4 class="card-title">My Order</h4>
                 @if (isset($message))
                     <p>{{ $message }}</p>
@@ -73,7 +73,7 @@
                                             @endif
                                         @endif
                                         <td><a href="{{ route('profile.bill-detail', $item->id) }}"><i
-                                                    class="fa fa-exclamation-circle"></i></a></td>
+                                                    class="fa fa-exclamation-circle" style="font-size: 20px"></i></a></td>
                                     </tr>
                                 @endforeach
                             </tbody>

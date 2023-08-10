@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\CheckImage;
 use App\Models\ProductDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -77,6 +78,9 @@ class ProductController extends Controller
         $sizes = $request->sizes ? json_decode($request->sizes) : [];
         $data = $request->validated();
         $data['image'] = $request->hasFile('image') ? CheckImage::checkImage($request, 'admin/product') : $product->image;
+        if ($request->hasFile('image')) {
+            Storage::delete('public/images/admin/product/' . $data['image']);
+        }
         $product->update($data);
         $sizeArray = [];
         foreach ($sizes as $size) {
@@ -127,6 +131,7 @@ class ProductController extends Controller
         $product = Product::withTrashed()->find($request->id);
 
         if ($product) {
+            Storage::delete('public/images/admin/product/' . $product->image);
             $product->forceDelete();
             return redirect()->route('products.deleted')->with(['success' => 'Đã xoá sản phẩm']);
         } else {

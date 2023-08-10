@@ -110,7 +110,7 @@
                         </div>
                         <button class="btn essence-btn">Place Order</button>
                         </form>
-                        <form action="{{ route('vnpay_payment') }}" method="post" id="vnpay-form">
+                        <form class="mt-2" action="{{ route('vnpay_payment') }}" method="post" id="vnpay-form">
                             @csrf
                             <input type="hidden" id="total1" value="" name="total">
                             <input type="hidden" id="name1" value="" name="customer_name">
@@ -120,7 +120,7 @@
                             <input type="hidden" id="note1" value="" name="note">
                             <input type="hidden" id="ship1" value="" name="ship">
                             <input type="hidden" name="vnp_TxnRef" id="vnp_TxnRef">
-                            <button type="submit" class="btn btn-primary" name="redirect">VnPay</button>
+                            <button type="submit" class="btn btn-primary" name="redirect"><img src="https://vnpayqr.vn/wp-content/uploads/2021/10/Logo-VNPAY-QR.png?fbclid=IwAR33gcPPQHpK7DoGFR-W4KT3TUH1uXUrsXmbYdSYNdUoZgt8YxhCUSgIBJg" width="100" alt=""></button>
                         </form>
                     </div>
                 </div>

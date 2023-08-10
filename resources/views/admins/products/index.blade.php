@@ -40,7 +40,7 @@
                 <tr>
                     <td>{{ $index++ }}</td>
                     <td>{{ $item->name }}</td>
-                    <td><img src="{{ asset('storage/images/admin/product/' . $item->image) }}" width="100" height="100"
+                    <td><img class="rounded-circle" src="{{ asset('storage/images/admin/product/' . $item->image) }}" width="100" height="100"
                             alt=""></td>
                     <td>{{ $item->price }}</td>
                     <td>{{ $item->desc }}</td>

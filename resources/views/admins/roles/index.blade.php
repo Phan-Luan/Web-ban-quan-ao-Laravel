@@ -11,21 +11,13 @@
         <div class="card-body">
             <h4 class="card-title">ROLE</h4>
             <div class="table-responsive pt-3">
-                <table class="table table-borderd">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                DisplayName
-                            </th>
-                            <th>
-                                Group
-                            </th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>DisplayName</th>
+                            <th>Group</th>
                             <th style="width: 200px">
                                 Action
                             </th>

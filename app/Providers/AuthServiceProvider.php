@@ -5,7 +5,7 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +25,10 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         Gate::before(function ($user, $ability) {
             return $user->hasRole('super-admin') ? true : null;
+        });
+
+        Gate::define('verify-email', function ($user) {
+            return $user->hasVerifiedEmail();
         });
     }
 }

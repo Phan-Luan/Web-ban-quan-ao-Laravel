@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Apis;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -62,6 +63,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if ($request->hasFile('image')) {
+            Storage::delete('public/images/admin/product/' . $request->file('image'));
+        }
         $data = [
             "name" => $request->input('name'),
             "desc" => $request->input('desc'),
@@ -75,8 +79,11 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource -from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        Storage::delete('public/images/admin/product/' . $category->image);
+        $category = $category->destroy($category->id); //xoá mềm
+        // $category->forceDelete(); //xoá cứng
+        return response()->json(['message' => "Đã xoá category", $category, $category]);
     }
 }

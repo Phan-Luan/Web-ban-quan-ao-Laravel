@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Coupon;
+use App\Models\CouponUser;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -218,11 +219,9 @@ class CartController extends Controller
         $cartProducts = $cart->products;
 
         foreach ($cartProducts as $cartProduct) {
-            $product = $this->product
-                ->with('details')
-                ->where('id', $cartProduct->product_id)->firstOrFail();
-                
-                //thay đổi số lượng sản phẩm của size khi mua 
+            $product = $this->product->with('details')->where('id', $cartProduct->product_id)->firstOrFail();
+
+            //thay đổi số lượng sản phẩm của size khi mua 
             foreach ($product->details as $item) {
                 if ($item->size == $cartProduct->product_size) {
                     $item->quantity  = $item->quantity - $cartProduct->product_quantity;
@@ -240,11 +239,25 @@ class CartController extends Controller
         }
 
         $cartProducts->each->delete();
+        $couponId = Session::get('coupon_id');
+        $discount_amount_price = Session::get('discount_amount_price');
+        if ($couponId) {
+            $userId = auth()->user()->id;
+            $existingCouponUser = CouponUser::where('coupon_id', $couponId)->where('user_id', $userId)->first();
+
+            if (!$existingCouponUser) {
+                $couponUser = new CouponUser();
+                $couponUser->coupon_id = $couponId;
+                $couponUser->user_id = $userId;
+                $couponUser->value = $discount_amount_price;
+                $couponUser->save();
+            }
+        }
         Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
         Artisan::call('test:send-mail-order', [
             'userId' => $order->user_id,
         ]);
-        return to_route('home');
+        return to_route('confirmation');
     }
     public function myOrder(Request $request)
     {
@@ -271,8 +284,15 @@ class CartController extends Controller
 
         $cart = $this->cart->firtOrCreateBy(auth()->user()->id);
         $cartProducts = $cart->products;
-
         foreach ($cartProducts as $cartProduct) {
+            $product = $this->product->with('details')->where('id', $cartProduct->product_id)->firstOrFail();
+            //thay đổi số lượng sản phẩm của size khi mua 
+            foreach ($product->details as $item) {
+                if ($item->size == $cartProduct->product_size) {
+                    $item->quantity  = $item->quantity - $cartProduct->product_quantity;
+                    $item->save();
+                }
+            }
             $productOrderData = [
                 'order_id' => $order->id,
                 'product_id' => $cartProduct->product_id,
@@ -288,6 +308,6 @@ class CartController extends Controller
         Artisan::call('test:send-mail-order', [
             'userId' => $order->user_id,
         ]);
-        return to_route('home');
+        return to_route('confirmation');
     }
 }

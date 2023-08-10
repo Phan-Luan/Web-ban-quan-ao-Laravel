@@ -1,26 +1,26 @@
 @extends('layouts.admin')
 @section('name-content')
-  List User
+    List User
 @endsection
-@section('title','List User')
+@section('title', 'List User')
 @section('content')
-{{-- <form  action="">
+    {{-- <form  action="">
   <div class="input-group d-flex align-items-center my-2 justify-content-end">
     <div>Search:</div>
     <div class=""><input class="form-control mx-1" style="width: 200px" type="search" name="q" value="{{$search}}" id=""></div>
   </div>
 </form> --}}
 
-  @section('content')
-  @if ($message = Session::get('success'))
-  <div class="alert alert-success">
-    <p>{{ $message }}</p>
-  </div>
+@section('content')
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
     @endif
     @if ($message = Session::get('error'))
-    <div class="alert alert-danger">
-      <p>{{ $message }}</p>
-    </div>
+        <div class="alert alert-danger">
+            <p>{{ $message }}</p>
+        </div>
     @endif
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
@@ -32,30 +32,16 @@
                     </form>
                 </div> --}}
                 <div class="table-responsive pt-3">
-                    <table class="table table-dark">
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Image
-                                </th>
-                                <th>
-                                    Email
-                                </th>
-                                <th>
-                                    Phone
-                                </th>
-                                <th>
-                                    Gender
-                                </th>
-                                <th>
-                                    Action
-                                </th>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Image</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Gender</th>
+                                <th style="width: 200px">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,7 +54,8 @@
                                         {{ $item->name }}
                                     </td>
                                     <td>
-                                        <img src="{{ asset('storage/images/admin/user/'.$item->image) }}" alt="" width="100" height="100">
+                                        <img class="rounded-circle" src="{{ asset('storage/images/admin/user/' . $item->image) }}" alt=""
+                                            width="70" height="70">
                                     </td>
                                     <td>
                                         {{ $item->email }}
@@ -81,20 +68,20 @@
                                     </td>
                                     <td>
                                         <div class="row">
-                                                <div class="p-1">
-                                                    <form action="{{ route('users.destroy', $item->id) }}" method="post">
-                                                        @csrf
-                                                        @method('delete')
-                                                        @can('delete-user')
+                                            <div class="p-1">
+                                                <form action="{{ route('users.destroy', $item->id) }}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    @can('delete-user')
                                                         <button class="btn btn-danger">Delete</button>
-                                                        @endcan
-                                                        @can('delete-user')
+                                                    @endcan
+                                                    @can('delete-user')
                                                         <a href="{{ route('users.edit', $item->id) }}"
-                                                            class="btn btn-info btn-fw">Update</a>
-                                                        @endcan
-                                                    </form>
-                                                </div>
-                                             
+                                                            class="btn btn-primary btn-fw">Update</a>
+                                                    @endcan
+                                                </form>
+                                            </div>
+
                                         </div>
                                     </td>
                                 </tr>

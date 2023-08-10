@@ -12,7 +12,9 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-
+    // 'features' => [
+    //     'email_verification' => true,
+    // ],
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',

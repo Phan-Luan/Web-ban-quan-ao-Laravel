@@ -33,10 +33,9 @@ class ProductController extends Controller
     {
         $product = $this->product->with('details')->findOrFail($id);
         // dd($product);
-        $categoryId = $product->category->pluck('id')->first();
+        $categoryId = $product->category->where('id', '=', $product->category_id)->pluck('id')->first();
 
-        $relatedProducts = $this->product->getBy($product->name, $categoryId);
-
+        $relatedProducts = $this->product->getBy($product->category_id, $categoryId);
         return view('clients.product.product-detail', compact('product', 'relatedProducts'));
     }
     public function quantity_size(Request $request)

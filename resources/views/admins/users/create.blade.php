@@ -14,7 +14,7 @@
                 @method('POST')
                 <div class="form-group">
                     <label for="exampleInputUsername1">Avatar</label>
-                    <input type="file" class="form-control" value="{{ old('image') }}" id="exampleInputUsername1"
+                    <input type="file" class="form-control col-2" value="{{ old('image') }}" id="exampleInputUsername1"
                         placeholder="NameUser" name="image">
                     @error('image')
                         <div class="text-danger">{{ $message }}</div>

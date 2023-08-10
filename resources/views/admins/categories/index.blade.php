@@ -30,7 +30,7 @@
       <tr>
         <td>{{$index++}}</td>
         <td>{{$item->name}}</td>
-        <td><img src="{{ asset('storage/images/admin/category/'.$item->image) }}" width="100" height="100" alt=""></td>
+        <td><img class="rounded-circle" src="{{ asset('storage/images/admin/category/'.$item->image) }}" width="100" height="100" alt=""></td>
         <td>{{$item->desc}}</td>
         <td style="width: 200px">
           <form action="{{route('categories.destroy',$item)}}" method="post">

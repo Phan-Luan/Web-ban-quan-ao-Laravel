@@ -27,27 +27,27 @@
                     <div class="wrap-table-shopping-cart">
                         <table class="table-shopping-cart text-center">
                             <tr class="table_head">
-                                <th class="column-1">Product</th>
-                                <th class="column-2"></th>
-                                <th class="column-3">Price</th>
-                                <th class="column-5">Size</th>
-                                <th class="column-6">Quantity</th>
-                                <th class="column-7">Total</th>
-                                <th class="column-8">Cancel</th>
+                                <th class="text-center column-1" colspan="2">Product</th>
+                                <th style="width: 100px" class="text-center">Price</th>
+                                <th style="width: 100px" class="text-center">Size</th>
+                                <th class="text-center column-6">Quantity</th>
+                                <th class="text-center column-7">Total</th>
+                                <th class="text-center column-8">Cancel</th>
                             </tr>
                             @foreach ($cart->products as $item)
                                 <tr class="table_row" id="row-{{ $item->id }}">
-                                    <td class="column-1">
+                                    <td class="text-center column-6">
                                         <div class="how-itemcart1">
                                             <img src="{{ asset('storage/images/admin/product/' . $item->product->image) }}"
                                                 alt="IMG">
                                         </div>
                                     </td>
-                                    <td class="column-2">{{ $item->product->name }}</td>
+                                    <td class="text-center column-6">{{ $item->product->name }}</td>
 
-                                    <td class="column-5">{{ $item->product_size }}</td>
+                                    <td class="text-center column-3">$ {{ $item->product->price }}</td>
+                                    <td class="text-center column-3">{{ $item->product_size }}</td>
 
-                                    <td class="column-6">
+                                    <td class="text-center column-4">
                                         <div class="wrap-num-product flex-w m-l-auto m-r-0">
                                             <button
                                                 class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m btn-update-quantity"
@@ -69,11 +69,11 @@
                                         </div>
                                     </td>
 
-                                    <td class="column-7" id="price-{{ $item->id }}">
+                                    <td class="text-center column-6" id="price-{{ $item->id }}">
                                         ${{ $item->product->price * $item->product_quantity }}
                                     </td>
 
-                                    <td class="column-8">
+                                    <td class="text-center column-6">
                                         <button class=" btn-remove-product"
                                             data-action="{{ route('client.carts.remove_product', $item->id) }}"><i
                                                 class="fa fa-times"></i></button>
@@ -110,7 +110,7 @@
 
                         <div class="size-209">
                             <span class="mtext-110 cl2 total-price" data-price="{{ $cart->total_price }}">
-                                ${{ $cart->total_price }}
+                                $ {{ $cart->total_price }}
                             </span>
                         </div>
                     </div>
@@ -169,7 +169,7 @@
             function getTotalValue() {
                 let total = $('.total-price').data('price');
                 let couponPrice = $('.coupon-div')?.data('price') ?? 0;
-                $('.total-price-all').text(`$${total - (total/100*couponPrice)}`);
+                $('.total-price-all').text(`$ ${total - (total/100*couponPrice)}`);
             }
             $('#form-coupon').on('submit', function(e) {
                 e.preventDefault();
@@ -185,7 +185,7 @@
                     let total = $('.total-price').data('price');
                     let total_price = res.discount_amount_price ?? 0;
                     $('.total-price-all').text(
-                        `$${total - (total/100*total_price)}`);
+                        `$ ${total - (total/100*total_price)}`);
                     $('#message').html(
                         `<h2 class="my-3 text-success" style="text-align: center; width:100%;">${res.message}</h2>`
                     );
@@ -201,11 +201,11 @@
                         let cartProductId = res.product_cart_id;
                         let coupon_code = $('.coupon-div')?.data('price') ?? 0;
                         $('#productCountCart').text(cart.product_count);
-                        $('.total-price').text(`$${cart.total_price}`).data('price', cart
+                        $('.total-price').text(`$ ${cart.total_price}`).data('price', cart
                             .product_count);
                         $(`#row-${cartProductId}`).remove();
                         $('.total-price-all').text(
-                            `$${cart.total_price - (cart.total_price/100*coupon_code)}`
+                            `$ ${cart.total_price - (cart.total_price/100*coupon_code)}`
                         );
                     });
                 }).catch(function() {});
@@ -229,14 +229,14 @@
                         $(`#row-${cartProductId}`).remove();
                     } else {
                         $(`#cartProductPrice${cartProductId}`).html(
-                            `$${res.cart_product_price}`);
+                            `$ ${res.cart_product_price}`);
                     }
 
                     getTotalValue(); // Cập nhật tổng giá trị sau khi thay đổi số lượng
                     $('.total-price').text(`$${cart.total_price}`);
                     $(`#price-${res.product_cart_id}`).text(`${res.cart_product_price}`);
                     $('.total-price-all').text(
-                        `$${cart.total_price - (cart.total_price/100*coupon_code)}`);
+                        `$ ${cart.total_price - (cart.total_price/100*coupon_code)}`);
                     Swal.fire({
                         position: "top-end",
                         icon: "success",

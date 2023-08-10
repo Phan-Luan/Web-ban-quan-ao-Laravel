@@ -12,16 +12,24 @@
         .container {
             margin-bottom: 100px;
         }
+
+        .icon1 {
+            font-size: 20px;
+        }
+
+        .nav-top {
+            border-bottom: 1px solid #000;
+        }
     </style>
     <div class="container">
         <div class="row flex-lg-nowrap">
             <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
                 <div class="card p-3">
-                    <div class="e-navlist e-navlist--active-bg">
+                    <div class="e-navlist nav-top e-navlist--active-bg">
                         <ul class="nav">
                             <li class="nav-item"><a class="nav-link text-dark px-2 active"
                                     href="{{ route('client.profile', auth()->user()->id) }}">
-                                    <i class="fa fa-fw fa-user mr-1"></i><span>My Profile</span></a>
+                                    <i class="fa fa-fw fa-user mr-1 icon1"></i><span>My Profile</span></a>
                             </li>
                         </ul>
                     </div>
@@ -29,7 +37,7 @@
                         <ul class="nav">
                             <li class="nav-item"><a class="nav-link text-dark px-2 active"
                                     href="{{ route('client.order', auth()->user()->id) }}">
-                                    <i class="fa fa-fw fa-cart-arrow-down mr-1"></i><span>My Order</span></a>
+                                    <i class="fa fa-fw fa-cart-arrow-down mr-1 icon1"></i><span>My Order</span></a>
                             </li>
                         </ul>
                     </div>
@@ -60,8 +68,8 @@
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
-                                                    <div class="mt-2">
-                                                        <input type="file" name="image" id="">
+                                                    <div class="mt-2 form-group">
+                                                        <input class="form-control" type="file" name="image" id="">
                                                     </div>
                                             </div>
                                         </div>
